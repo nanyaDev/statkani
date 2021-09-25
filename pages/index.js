@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import isUUID from '@/utils/isUUID';
+import Waves from '@/components/Waves';
 
 const Home = () => {
   const [value, setValue] = useState('');
@@ -22,13 +23,14 @@ const Home = () => {
   };
 
   return (
-    <div className="flex-grow flex flex-col justify-center items-center">
-      <h1 className="text-7xl text-center font-black text-gray-700 mb-16">
+    <div className="flex-grow flex flex-col justify-center items-center bg-bg">
+      <Waves />
+      <h1 className="text-7xl text-center font-black text-gray-1 mb-8">
         API Key お願いします
       </h1>
       <form className="w-full max-w-lg" onSubmit={handleSubmit}>
         <input
-          className="w-full border-b-2 text-xl font-light text-center focus:outline-none focus:placeholder-transparent py-2 mb-4"
+          className="w-full border-b-2 bg-bg text-xl font-light text-center text-gray-1 focus:outline-none focus:placeholder-transparent py-2 my-4 z-1"
           placeholder="Your key goes here!"
           value={value}
           onChange={handleChange}
