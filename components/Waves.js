@@ -62,21 +62,21 @@ const Waves = () => {
           ))}
         </defs>
         <motion.path
-          initial={false}
+          initial={{ d: getPath() }}
           animate={{ d: path1 }}
           transition={{ duration, type: 'tween', ease: 'linear' }}
           fill="url(#gradient-0)"
           className="mix-blend-screen"
         />
         <motion.path
-          initial={false}
+          initial={{ d: getPath() }}
           animate={{ d: path2 }}
           transition={{ duration, type: 'tween', ease: 'linear' }}
           fill="url(#gradient-1)"
           className="mix-blend-screen"
         />
         <motion.path
-          initial={false}
+          initial={{ d: getPath() }}
           animate={{ d: path3 }}
           transition={{ duration, type: 'tween', ease: 'linear' }}
           fill="url(#gradient-2)"
