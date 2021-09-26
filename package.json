@@ -9,7 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@visx/axis": "^2.1.1",
     "@visx/curve": "^2.1.0",
+    "@visx/group": "^2.1.0",
+    "@visx/heatmap": "^2.1.0",
+    "@visx/scale": "^2.1.0",
     "@visx/shape": "^2.1.1",
     "d3-random": "^3.0.1",
     "eslint-config-prettier": "^8.3.0",

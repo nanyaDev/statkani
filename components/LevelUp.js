@@ -1,11 +1,8 @@
 import { useMemo } from 'react';
-import { Box, Flex, Heading } from '@chakra-ui/react';
 import { Group } from '@visx/group';
 import { Bar } from '@visx/shape';
 import { scaleBand, scaleLinear, scaleTime } from '@visx/scale';
-import { AxisBottom, AxisLeft } from '@visx/axis';
-
-import { barData } from '@/utils/mockData';
+import { AxisBottom } from '@visx/axis';
 
 // todo: make this responsive
 const LevelUp = () => {
@@ -49,46 +46,53 @@ const LevelUp = () => {
   const yPoint = (d) => yScale(d.frequency);
 
   return (
-    <Flex
-      direction="column"
-      justify="flex-end"
-      align="center"
-      h="30%"
-      bg="white"
-      boxShadow="base"
-      rounded="md"
-      mb={8}
-    >
-      <Heading alignSelf="flex-start" size="sm" color="gray.600" pl={8} mb={3}>
-        Review Forecast
-      </Heading>
-      <svg width={xMax + 60} height={yMax + 30}>
-        <Group left={20}>
-          {barData.map((d) => {
-            return (
-              <Bar
-                key={`bar-${d.letter}`}
-                x={xPoint(d)}
-                y={yPoint(d)}
-                width={xScale.bandwidth()}
-                height={yMax - yPoint(d)}
-                fill="#e53e3e"
-              />
-            );
-          })}
-          <AxisBottom
-            scale={timeScale}
-            left={-20}
-            top={yMax - 5}
-            hideTicks
-            hideAxisLine
-            numTicks={8}
-            tickLabelProps={() => ({ fontSize: 9, textAnchor: 'middle' })}
-          />
-        </Group>
-      </svg>
-    </Flex>
+    <svg width={xMax + 60} height={yMax + 30}>
+      <Group left={20}>
+        {barData.map((d) => {
+          return (
+            <Bar
+              key={`bar-${d.letter}`}
+              x={xPoint(d)}
+              y={yPoint(d)}
+              width={xScale.bandwidth()}
+              height={yMax - yPoint(d)}
+              fill="#e53e3e"
+            />
+          );
+        })}
+        <AxisBottom
+          scale={timeScale}
+          left={-20}
+          top={yMax - 5}
+          hideTicks
+          hideAxisLine
+          numTicks={8}
+          tickLabelProps={() => ({ fontSize: 9, textAnchor: 'middle' })}
+        />
+      </Group>
+    </svg>
   );
 };
 
 export default LevelUp;
+
+export const barData = [
+  { letter: 'A', frequency: 816 },
+  { letter: 'B', frequency: 149 },
+  { letter: 'C', frequency: 278 },
+  { letter: 'D', frequency: 425 },
+  { letter: 'E', frequency: 1270 },
+  { letter: 'F', frequency: 228 },
+  { letter: 'G', frequency: 201 },
+  { letter: 'H', frequency: 609 },
+  { letter: 'I', frequency: 696 },
+  { letter: 'J', frequency: 15 },
+  { letter: 'K', frequency: 77 },
+  { letter: 'L', frequency: 402 },
+  { letter: 'M', frequency: 240 },
+  { letter: 'N', frequency: 674 },
+  { letter: 'O', frequency: 750 },
+  { letter: 'P', frequency: 192 },
+  { letter: 'Q', frequency: 9 },
+  { letter: 'R', frequency: 598 },
+];
