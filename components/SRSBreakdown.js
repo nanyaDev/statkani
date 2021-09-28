@@ -1,24 +1,19 @@
-import React, { useState } from 'react';
-import Pie from '@visx/shape/lib/shapes/Pie';
+import React from 'react';
+import { Pie } from '@visx/shape';
 import { Group } from '@visx/group';
+import { scaleOrdinal } from '@visx/scale';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 
-const browsers = [
-  { label: 'Google Chrome', usage: 48 },
-  { label: 'Internet Explorer', usage: 24 },
-  { label: 'Firefox', usage: 18 },
-  { label: 'Safari', usage: 7 },
-];
+import useToggle from '@/lib/useToggle';
 
-const initial = [
-  { label: 'Google Chrome', usage: 38 },
-  { label: 'Internet Explorer', usage: 34 },
-  { label: 'Firefox', usage: 9 },
-  { label: 'Safari', usage: 2 },
-];
+const SRSBreakdown = ({ stages }) => {
+  const [symmetry, toggleSymmetry] = useToggle(true);
 
-const SRSBreakdown = () => {
-  const [data, setData] = useState(false);
+  // prettier-ignore
+  const getColor = scaleOrdinal({
+    domain: [ 'Apprentice', 'Guru', 'Master', 'Enlightened', 'Burned', 'Unknown' ],
+    range: [ '#f300a3', '#a035ba', '#4765df', '#0098e6', '#494949', '#c1c1c1' ],
+  });
 
   const size = 400;
 
@@ -26,35 +21,32 @@ const SRSBreakdown = () => {
     <svg width={size} height={size}>
       <Group top={size / 2} left={size / 2}>
         <Pie
-          data={data ? initial : browsers}
-          pieValue={(d) => d.usage}
+          data={stages}
+          pieValue={(d) => (symmetry ? d.value : 1)}
+          pieSort={null}
           outerRadius={size / 2}
           innerRadius={size / 4}
-          padAngle={0.01}
         >
-          {(props) => <PieOverride setData={setData} {...props} />}
+          {({ arcs, path }) => (
+            <Group>
+              {arcs.map((arc, i) => (
+                <PieIndividual
+                  key={`pie-arc-${i}`}
+                  arc={arc}
+                  path={path}
+                  handleClick={toggleSymmetry}
+                  fill={getColor(arc.data.stage)}
+                />
+              ))}
+            </Group>
+          )}
         </Pie>
       </Group>
     </svg>
   );
 };
 
-const PieOverride = ({ arcs, path, setData }) => {
-  return (
-    <Group>
-      {arcs.map((arc, i) => (
-        <PieIndividual
-          key={`pie-arc-${i}`}
-          arc={arc}
-          path={path}
-          setData={setData}
-        />
-      ))}
-    </Group>
-  );
-};
-
-const PieIndividual = ({ arc, path, setData }) => {
+const PieIndividual = ({ arc, path, handleClick, fill }) => {
   // sa -> startAngle, ea -> endAngle
   const sa = useMotionValue(0);
   const ea = useMotionValue(0);
@@ -69,8 +61,8 @@ const PieIndividual = ({ arc, path, setData }) => {
         style={{ sa, ea }}
         animate={{ sa: arc.startAngle, ea: arc.endAngle }}
         transition={{ duration: 0.5, transition: 'linear' }}
-        onClick={() => setData((p) => !p)}
-        fill="white"
+        onClick={handleClick}
+        fill={fill}
       />
     </g>
   );
