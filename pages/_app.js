@@ -1,13 +1,13 @@
 import '@/styles/globals.css';
 import { AuthProvider } from '@/lib/auth';
-import { DataProvider } from '@/lib/data';
+import { ConditionalDataProvider } from '@/lib/data';
 
 function MyApp({ Component, pageProps }) {
   return (
     <AuthProvider>
-      <DataProvider>
+      <ConditionalDataProvider exclude={['/']}>
         <Component {...pageProps} />
-      </DataProvider>
+      </ConditionalDataProvider>
     </AuthProvider>
   );
 }
