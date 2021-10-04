@@ -1,4 +1,4 @@
-const StatsBox = ({ dates, accuracy }) => {
+const StatsBox = ({ dates, accuracy, known }) => {
   // prettier-ignore
   const colors = { radical: 'text-blue', kanji: 'text-pink', vocabulary: 'text-purple' };
   const names = { radical: '部種', kanji: '漢字', vocabulary: '単語' };
@@ -20,10 +20,10 @@ const StatsBox = ({ dates, accuracy }) => {
           <thead>
             <tr>
               <td></td>
-              <th className="text-sm text-white font-medium">Known</th>
               <th className="text-sm text-white font-medium">Meaning</th>
               <th className="text-sm text-white font-medium">Reading</th>
               <th className="text-sm text-white font-medium">Total</th>
+              <th className="text-sm text-white font-medium">Known</th>
             </tr>
           </thead>
           <tbody>
@@ -33,6 +33,7 @@ const StatsBox = ({ dates, accuracy }) => {
                 <td className="font-light p-2">{value[0]}</td>
                 <td className="font-light p-2">{value[1]}</td>
                 <td className="font-light p-2">{value[2]}</td>
+                <td className="font-light p-2">{known[key]}</td>
               </tr>
             ))}
           </tbody>

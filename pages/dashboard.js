@@ -8,21 +8,25 @@ import median from '@/utils/median';
 import getDuration from '@/utils/getDuration';
 
 const Dashboard = () => {
-  const { user, assignments, progressions, reviewStats } = useData();
+  const { user, subjects, assignments, progressions, reviewStats } = useData();
 
   const stagesArr = assignments.reduce((acc, curr) => {
     acc[curr.stage] += 1;
     return acc;
   }, Array(10).fill(0));
 
+  // prettier-ignore
   const stages = [
-    // prettier-ignore
     { stage: 'Apprentice', value: stagesArr.slice(1, 5).reduce((a, b) => a + b) },
     { stage: 'Guru', value: stagesArr.slice(5, 7).reduce((a, b) => a + b) },
     { stage: 'Master', value: stagesArr[7] },
     { stage: 'Enlightened', value: stagesArr[8] },
     { stage: 'Burned', value: stagesArr[9] },
+    { stage: 'Unknown', value: subjects.length - stagesArr.reduce((a, b) => a + b) },
   ];
+
+  let completed = stagesArr.reduce((a, b) => a + b) / subjects.length;
+  completed = (completed * 100).toFixed(1) + '%';
 
   let dates = {};
   if (user && assignments.length && progressions.length) {
@@ -72,14 +76,25 @@ const Dashboard = () => {
     const arr = [mc/(mc+mi), rc/(rc+ri), (mc+rc)/(mc + rc + mi + ri)]
     accuracy[key] = arr.map(v => (v*100).toFixed(2) + '%')
   })
+
   accuracy.radical[1] = 'n/a';
+
+  const known = assignments.reduce(
+    (acc, curr) => {
+      if (curr.stage >= 5) acc[curr.type] += 1;
+      return acc;
+    },
+    { radical: 0, kanji: 0, vocabulary: 0 }
+  );
+
+  console.log(known);
 
   return (
     <div className="flex-grow flex flex-col bg-bg">
       <Navbar />
       <div className=" flex-grow flex justify-evenly items-center px-8 pb-8">
-        <Donut stages={stages} />
-        <StatsBox dates={dates} accuracy={accuracy} />
+        <Donut stages={stages} completed={completed} />
+        <StatsBox dates={dates} accuracy={accuracy} known={known} />
       </div>
     </div>
   );
