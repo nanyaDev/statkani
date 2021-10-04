@@ -3,11 +3,11 @@ import { Group } from '@visx/group';
 import { HeatmapRect } from '@visx/heatmap';
 import { AxisBottom, AxisLeft } from '@visx/axis';
 
-// ? does using an svg grid like GitHub does result in better performance
 // todo: make this responsive, remove all the hardcoded numbers
 const HeatMap = () => {
   // todo: get 53 and 7 from data
-  const sideLength = 13;
+  const gap = 4;
+  const sideLength = 18;
   const width = 53 * sideLength;
   const height = 7 * sideLength;
 
@@ -23,7 +23,7 @@ const HeatMap = () => {
 
   const colorScale = scaleLinear({
     domain: [0, 100], // ! fix this
-    range: ['#eeedff', '#2b6cb0'],
+    range: ['#050B20', '#00AAFF'],
   });
 
   const days = ['M', null, 'W', null, 'F', null, 'S'];
@@ -47,8 +47,26 @@ const HeatMap = () => {
           colorScale={colorScale}
           binWidth={sideLength}
           binHeight={sideLength}
-          gap={2}
-        />
+          gap={gap}
+        >
+          {(heatmap) =>
+            heatmap.map((heatmapBins) =>
+              heatmapBins.map((bin) => (
+                <rect
+                  key={`rect-${bin.row}-${bin.column}`}
+                  width={bin.width}
+                  height={bin.height}
+                  x={bin.x}
+                  y={bin.y}
+                  rx={2}
+                  ry={2}
+                  fill={bin.color}
+                  fillOpacity={bin.opacity}
+                />
+              ))
+            )
+          }
+        </HeatmapRect>
         <AxisLeft
           scale={yScale}
           top={-5}
@@ -58,6 +76,13 @@ const HeatMap = () => {
           hideTicks
           hideAxisLine
           numTicks={7}
+          tickLabelProps={() => ({
+            dx: '-0.25em',
+            dy: '0.25em',
+            fill: 'white',
+            fontSize: 10,
+            textAnchor: 'end',
+          })}
         />
         <AxisBottom
           scale={xScale}
@@ -68,6 +93,13 @@ const HeatMap = () => {
           hideTicks
           hideAxisLine
           numTicks={53}
+          tickLabelProps={() => ({
+            dy: '0.5em',
+            fill: 'white',
+            fontFamily: 'Arial',
+            fontSize: 10,
+            textAnchor: 'middle',
+          })}
         />
       </Group>
     </svg>
