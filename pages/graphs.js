@@ -11,6 +11,7 @@ import calendarize from '@/utils/calendarize';
 import sortByKeys from '@/utils/sortByKeys';
 import trimZeros from '@/utils/trimZeros';
 import toPercentage from '@/utils/toPercentage';
+import getDuration from '@/utils/getDuration';
 
 const Graphs = () => {
   const { progressions, reviews } = useData();
@@ -22,8 +23,10 @@ const Graphs = () => {
   const diffs = prog.map(
     (p) => new Date(p.end).getTime() - new Date(p.start).getTime()
   );
-  const median = getMedian(diffs) / 1000 / 60 / 60 / 24;
-  const average = getAverage(diffs) / 1000 / 60 / 60 / 24;
+  const median = getMedian(diffs);
+  const average = getAverage(diffs);
+  const medianInDays = median / 1000 / 60 / 60 / 24;
+  const averageInDays = average / 1000 / 60 / 60 / 24;
 
   prog = prog.map(({ level, start, end }) => {
     return { level, duration: getDays(start, end) };
@@ -73,11 +76,21 @@ const Graphs = () => {
     'Daily Average': Math.round(totalReviews / daysLearned),
   };
 
+  const barStats = {
+    Median: getDuration(0, median, ['days', 'hours', 'minutes']),
+    Average: getDuration(0, average, ['days', 'hours', 'minutes']),
+  };
+
   return (
     <div className="flex-grow flex flex-col bg-bg">
       <Navbar />
       <div className="flex-grow flex flex-col justify-around items-center px-20 py-10">
-        <Bars progressions={prog} median={median} average={average} />
+        <Bars
+          progressions={prog}
+          median={medianInDays}
+          average={averageInDays}
+          stats={barStats}
+        />
         <HeatMap data={bins} stats={heatmapStats} />
       </div>
     </div>

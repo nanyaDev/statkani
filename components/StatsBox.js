@@ -10,7 +10,7 @@ const StatsBox = ({ dates, accuracy, known }) => {
           <tbody className="text-white">
             {Object.entries(dates).map(([key, value]) => (
               <tr key={key}>
-                <td className="font-semibold">{key + ':'}</td>
+                <td className="font-medium text-right pr-2">{key + ':'}</td>
                 <td className="font-light">{value}</td>
               </tr>
             ))}
