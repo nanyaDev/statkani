@@ -1,4 +1,5 @@
 import capitalize from '@/utils/capitalize';
+import toPercentage from '@/utils/toPercentage';
 
 const Loader = ({ progress }) => {
   return (
@@ -21,7 +22,7 @@ const ProgressBar = ({ endpoint, progress }) => {
         {capitalize(endpoint)}
       </span>
       <span className="text-gray-1 font-medium z-10">
-        {(progress * 100).toFixed() + '%'}
+        {toPercentage(progress)}
       </span>
     </div>
   );
