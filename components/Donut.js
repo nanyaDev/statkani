@@ -64,13 +64,18 @@ const Donut = ({ stages, completed }) => {
 
 const PieIndividual = ({ arc, path, handleClick, fill, symmetry }) => {
   // sa -> startAngle, ea -> endAngle
-  const sa = useMotionValue(0);
-  const ea = useMotionValue(0);
+  const sa = useMotionValue(arc.startAngle);
+  const ea = useMotionValue(arc.endAngle);
   const d = useTransform([sa, ea], ([sa, ea]) =>
     path({ ...arc, startAngle: sa, endAngle: ea })
   );
 
   const [x, y] = path.centroid(arc);
+
+  const labels = {
+    hide: { opacity: 0, transition: { duration: 0 } },
+    show: { opacity: 1, transition: { delay: 0.5 } },
+  };
 
   return (
     <g>
@@ -82,22 +87,20 @@ const PieIndividual = ({ arc, path, handleClick, fill, symmetry }) => {
         onClick={handleClick}
         fill={fill}
       />
-      {symmetry && (
-        <motion.text
-          className="text-2xl font-black"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          fill="white"
-          x={x}
-          y={y}
-          textAnchor="middle"
-          dy=".33em"
-          onClick={handleClick}
-        >
-          {arc.data.value}
-        </motion.text>
-      )}
+      <motion.text
+        className="text-2xl font-black"
+        variants={labels}
+        animate={symmetry ? 'show' : 'hide'}
+        display={symmetry ? null : 'none'}
+        fill="white"
+        x={x}
+        y={y}
+        textAnchor="middle"
+        dy=".33em"
+        onClick={handleClick}
+      >
+        {arc.data.value}
+      </motion.text>
     </g>
   );
 };
