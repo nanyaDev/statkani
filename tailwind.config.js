@@ -5,9 +5,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        pink: '#FF00AA',
-        blue: '#00AAFF',
-        purple: '#A100F1',
+        pink: { DEFAULT: '#FF00AA' },
+        blue: { DEFAULT: '#00AAFF' },
+        purple: { DEFAULT: '#A100F1' },
         bg: '#050B20',
         fg: '#11162D',
         gray: {
