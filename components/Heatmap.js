@@ -3,11 +3,15 @@ import { scaleLinear } from '@visx/scale';
 import { Group } from '@visx/group';
 import { HeatmapRect } from '@visx/heatmap';
 import { AxisBottom, AxisLeft } from '@visx/axis';
+import { useTooltip, Tooltip, defaultStyles } from '@visx/tooltip';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
-// todo: make this responsive, remove all the hardcoded numbers
+let tooltipTimeout;
+
 const HeatMap = ({ data, stats }) => {
   const [year, setYear] = useState(new Date().getFullYear());
+  // prettier-ignore
+  const { showTooltip, hideTooltip, tooltipLeft, tooltipTop, tooltipData } = useTooltip();
 
   // todo: get 53 and 7 from data
   const gap = 4;
@@ -42,7 +46,7 @@ const HeatMap = ({ data, stats }) => {
   const yTickFormat = (_, i) => days[i];
 
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-2 relative">
       <div className="flex justify-between items-center text-gray-1 pl-8">
         <div className="flex items-center space-x-4 text-sm">
           {Object.entries(stats).map(([key, value]) => (
@@ -70,8 +74,8 @@ const HeatMap = ({ data, stats }) => {
           </button>
         </div>
       </div>
-      <svg width={width + 30} height={height + 20}>
-        <Group left={30}>
+      <svg width={width + 60} height={height + 20}>
+        <Group left={30} right={30}>
           <HeatmapRect
             data={data[year]}
             bins={(d) => d}
@@ -96,6 +100,19 @@ const HeatMap = ({ data, stats }) => {
                     ry={2}
                     fill={bin.color || '#050B20'}
                     fillOpacity={bin.opacity}
+                    onMouseEnter={() => {
+                      if (tooltipTimeout) clearTimeout(tooltipTimeout);
+                      showTooltip({
+                        tooltipData: bin,
+                        tooltipLeft: bin.x,
+                        tooltipTop: bin.y,
+                      });
+                    }}
+                    onMouseLeave={() => {
+                      tooltipTimeout = window.setTimeout(() => {
+                        hideTooltip();
+                      }, 300);
+                    }}
                   />
                 ))
               )
@@ -137,6 +154,22 @@ const HeatMap = ({ data, stats }) => {
           />
         </Group>
       </svg>
+      {tooltipData && (
+        <Tooltip
+          top={tooltipTop}
+          left={tooltipLeft}
+          style={{
+            ...defaultStyles,
+            minWidth: 30,
+            backgroundColor: '#11162D',
+            color: 'white',
+            textAlign: 'center',
+            transform: 'translateX(-50%) translateX(30px)',
+          }}
+        >
+          <div>{tooltipData.bin}</div>
+        </Tooltip>
+      )}
     </div>
   );
 };

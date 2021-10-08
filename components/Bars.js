@@ -1,14 +1,20 @@
 import { useState } from 'react';
 import { Group } from '@visx/group';
-import { Bar, Line } from '@visx/shape';
+import { Line } from '@visx/shape';
 import { scaleBand, scaleLinear } from '@visx/scale';
 import { AxisBottom, AxisLeft } from '@visx/axis';
+import { useTooltip, Tooltip, defaultStyles } from '@visx/tooltip';
 import { MdZoomIn, MdZoomOut } from 'react-icons/md';
 import { motion } from 'framer-motion';
 
-// todo: make this responsive
+import getDuration from '@/utils/getDuration';
+
+let tooltipTimeout;
+
 const Bars = ({ progressions, median, average, stats }) => {
   const [zoom, setZoom] = useState(true);
+  // prettier-ignore
+  const { showTooltip, hideTooltip, tooltipLeft, tooltipTop, tooltipData } = useTooltip();
 
   const xMax = 53 * 18; // * from heatmap
   const yMax = 7 * 18 * 1.5; // * 1.5 factor
@@ -32,7 +38,7 @@ const Bars = ({ progressions, median, average, stats }) => {
   const yPoint = (d) => yScale(d.duration);
 
   return (
-    <div className="flex flex-col space-y-2">
+    <div className="flex flex-col space-y-2 relative">
       <div className="flex justify-between items-center text-gray-1 pl-8">
         <div className="flex items-center space-x-4 text-sm">
           {Object.entries(stats).map(([key, value]) => (
@@ -46,9 +52,10 @@ const Bars = ({ progressions, median, average, stats }) => {
           {zoom ? <MdZoomOut size={24} /> : <MdZoomIn size={24} />}
         </button>
       </div>
-      <svg width={xMax + 30} height={yMax + 30}>
-        <Group left={30}>
+      <svg width={xMax + 60} height={yMax + 30}>
+        <Group left={30} right={30}>
           {progressions.map((d) => {
+            console.log(d);
             return (
               <motion.rect
                 key={`bar-${d.level}`}
@@ -58,6 +65,19 @@ const Bars = ({ progressions, median, average, stats }) => {
                 y={yPoint(d)}
                 height={yMax - yPoint(d)}
                 fill={d.duration <= median ? '#A100F1' : '#FF00AA'}
+                onMouseEnter={() => {
+                  if (tooltipTimeout) clearTimeout(tooltipTimeout);
+                  showTooltip({
+                    tooltipData: d,
+                    tooltipLeft: xPoint(d),
+                    tooltipTop: yPoint(d),
+                  });
+                }}
+                onMouseLeave={() => {
+                  tooltipTimeout = window.setTimeout(() => {
+                    hideTooltip();
+                  }, 300);
+                }}
               />
             );
           })}
@@ -99,6 +119,28 @@ const Bars = ({ progressions, median, average, stats }) => {
           />
         </Group>
       </svg>
+      {tooltipData && (
+        <Tooltip
+          top={tooltipTop}
+          left={tooltipLeft}
+          style={{
+            ...defaultStyles,
+            minWidth: 60,
+            backgroundColor: '#11162D',
+            color: 'white',
+            transform: 'translateX(-50%) translateX(30px)',
+          }}
+        >
+          <div>
+            {getDuration(
+              0,
+              tooltipData.duration * 86400000,
+              ['days', 'hours'],
+              true
+            )}
+          </div>
+        </Tooltip>
+      )}
     </div>
   );
 };
