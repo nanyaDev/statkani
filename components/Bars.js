@@ -4,6 +4,7 @@ import { Line } from '@visx/shape';
 import { scaleBand, scaleLinear } from '@visx/scale';
 import { AxisBottom, AxisLeft } from '@visx/axis';
 import { useTooltip, Tooltip, defaultStyles } from '@visx/tooltip';
+import { localPoint } from '@visx/event';
 import { MdZoomIn, MdZoomOut } from 'react-icons/md';
 import { motion } from 'framer-motion';
 
@@ -64,12 +65,12 @@ const Bars = ({ progressions, median, average, stats }) => {
                 y={yPoint(d)}
                 height={yMax - yPoint(d)}
                 fill={d.duration <= median ? '#A100F1' : '#FF00AA'}
-                onMouseEnter={() => {
+                onMouseMove={(e) => {
                   if (tooltipTimeout) clearTimeout(tooltipTimeout);
                   showTooltip({
                     tooltipData: d,
-                    tooltipLeft: xPoint(d),
-                    tooltipTop: yPoint(d),
+                    tooltipLeft: xPoint(d) + 30,
+                    tooltipTop: localPoint(e).y,
                   });
                 }}
                 onMouseLeave={() => {
@@ -124,17 +125,19 @@ const Bars = ({ progressions, median, average, stats }) => {
             minWidth: 60,
             backgroundColor: '#11162D',
             color: 'white',
-            transform: 'translateX(-50%) translateX(30px)',
           }}
         >
-          <div>
-            {getDuration(
-              0,
-              tooltipData.duration * 86400000,
-              ['days', 'hours'],
-              true
-            )}
-          </div>
+          <div
+            className={`${
+              tooltipData.duration <= median ? 'text-purple' : 'text-pink'
+            } font-medium`}
+          >{`Level ${tooltipData.level}`}</div>
+          <div className="font-light">{`${Math.floor(
+            tooltipData.duration
+          )} days`}</div>
+          <div className="font-light">{`${Math.round(
+            (tooltipData.duration % 1) * 24
+          )} hours`}</div>
         </Tooltip>
       )}
     </div>
