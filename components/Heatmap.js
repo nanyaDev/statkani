@@ -6,7 +6,7 @@ import { AxisBottom, AxisLeft } from '@visx/axis';
 import { useTooltip, Tooltip, defaultStyles } from '@visx/tooltip';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
-import { getMonthTicks } from '@/utils/dates';
+import { indexToDate, getMonthTicks } from '@/utils/dates';
 
 let tooltipTimeout;
 
@@ -47,8 +47,8 @@ const HeatMap = ({ data, stats }) => {
   const yTickFormat = (_, i) => days[i];
 
   return (
-    <div className="flex flex-col space-y-2 relative">
-      <div className="flex justify-between items-center text-gray-1 pl-8">
+    <div className="flex flex-col space-y-2">
+      <div className="flex justify-between items-center text-gray-1 px-8">
         <div className="flex items-center space-x-4 text-sm">
           {Object.entries(stats).map(([key, value]) => (
             <span key={key}>
@@ -75,102 +75,102 @@ const HeatMap = ({ data, stats }) => {
           </button>
         </div>
       </div>
-      <svg width={width + 60} height={height + 20}>
-        <Group left={30} right={30}>
-          <HeatmapRect
-            data={data[year]}
-            bins={(d) => d}
-            count={(d) => d}
-            xScale={xScale}
-            yScale={yScale}
-            colorScale={colorScale}
-            binWidth={sideLength}
-            binHeight={sideLength}
-            gap={gap}
+      <div className="relative">
+        <svg width={width + 60} height={height + 20}>
+          <Group left={30} right={30}>
+            <HeatmapRect
+              data={data[year]}
+              bins={(d) => d}
+              count={(d) => d}
+              xScale={xScale}
+              yScale={yScale}
+              colorScale={colorScale}
+              binWidth={sideLength}
+              binHeight={sideLength}
+              gap={gap}
+            >
+              {(heatmap) =>
+                heatmap.map((heatmapBins) =>
+                  heatmapBins.map((bin) => (
+                    <rect
+                      key={`rect-${bin.row}-${bin.column}`}
+                      width={bin.width}
+                      height={bin.height}
+                      x={bin.x}
+                      y={bin.y}
+                      rx={2}
+                      ry={2}
+                      fill={bin.color || '#050B20'}
+                      fillOpacity={bin.opacity}
+                      onMouseEnter={() => {
+                        showTooltip({
+                          tooltipData: bin,
+                          tooltipLeft: bin.x + 30,
+                          tooltipTop: bin.y,
+                        });
+                      }}
+                      onMouseLeave={hideTooltip}
+                    />
+                  ))
+                )
+              }
+            </HeatmapRect>
+            <AxisLeft
+              scale={yScale}
+              top={-5}
+              left={5}
+              tickValues={yTickValues}
+              tickFormat={yTickFormat}
+              hideTicks
+              hideAxisLine
+              numTicks={7}
+              tickLabelProps={() => ({
+                dx: '-0.25em',
+                dy: '0.25em',
+                fill: 'white',
+                fontSize: 10,
+                textAnchor: 'end',
+              })}
+            />
+            <AxisBottom
+              scale={xScale}
+              top={height - 10}
+              left={8}
+              tickValues={xTickValues}
+              tickFormat={xTickFormat}
+              hideTicks
+              hideAxisLine
+              numTicks={53}
+              tickLabelProps={() => ({
+                dy: '0.5em',
+                fill: 'white',
+                fontFamily: 'Arial',
+                fontSize: 10,
+                textAnchor: 'middle',
+              })}
+            />
+          </Group>
+        </svg>
+        {tooltipData && (
+          <Tooltip
+            top={tooltipTop}
+            left={tooltipLeft}
+            offsetTop={null}
+            style={{
+              ...defaultStyles,
+              minWidth: 30,
+              backgroundColor: '#11162D',
+              color: 'white',
+              transform: 'translateY(-100%)',
+            }}
           >
-            {(heatmap) =>
-              heatmap.map((heatmapBins) =>
-                heatmapBins.map((bin) => (
-                  <rect
-                    key={`rect-${bin.row}-${bin.column}`}
-                    width={bin.width}
-                    height={bin.height}
-                    x={bin.x}
-                    y={bin.y}
-                    rx={2}
-                    ry={2}
-                    fill={bin.color || '#050B20'}
-                    fillOpacity={bin.opacity}
-                    onMouseEnter={() => {
-                      if (tooltipTimeout) clearTimeout(tooltipTimeout);
-                      showTooltip({
-                        tooltipData: bin,
-                        tooltipLeft: bin.x,
-                        tooltipTop: bin.y,
-                      });
-                    }}
-                    onMouseLeave={() => {
-                      tooltipTimeout = window.setTimeout(() => {
-                        hideTooltip();
-                      }, 300);
-                    }}
-                  />
-                ))
-              )
-            }
-          </HeatmapRect>
-          <AxisLeft
-            scale={yScale}
-            top={-5}
-            left={5}
-            tickValues={yTickValues}
-            tickFormat={yTickFormat}
-            hideTicks
-            hideAxisLine
-            numTicks={7}
-            tickLabelProps={() => ({
-              dx: '-0.25em',
-              dy: '0.25em',
-              fill: 'white',
-              fontSize: 10,
-              textAnchor: 'end',
-            })}
-          />
-          <AxisBottom
-            scale={xScale}
-            top={height - 10}
-            left={8}
-            tickValues={xTickValues}
-            tickFormat={xTickFormat}
-            hideTicks
-            hideAxisLine
-            numTicks={53}
-            tickLabelProps={() => ({
-              dy: '0.5em',
-              fill: 'white',
-              fontFamily: 'Arial',
-              fontSize: 10,
-              textAnchor: 'middle',
-            })}
-          />
-        </Group>
-      </svg>
-      {tooltipData && (
-        <Tooltip
-          top={tooltipTop}
-          left={tooltipLeft}
-          style={{
-            ...defaultStyles,
-            minWidth: 30,
-            backgroundColor: '#11162D',
-            color: 'white',
-            textAlign: 'center',
-            transform: 'translateX(-50%) translateX(30px)',
-          }}
-        >
-          <div>{tooltipData.bin}</div>
-        </Tooltip>
-      )}
+            <div className="font-medium text-blue">
+              {indexToDate(tooltipData.column * 7 + tooltipData.row, year)}
+            </div>
+            <div className="font-light">{`${tooltipData.count} reviews`}</div>
+          </Tooltip>
+        )}
+      </div>
     </div>
   );
 };
