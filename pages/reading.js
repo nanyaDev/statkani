@@ -1,6 +1,6 @@
 import Navbar from '@/components/Navbar';
 
-const Items = () => {
+const Reading = () => {
   return (
     <div className="flex-grow flex flex-col bg-bg">
       <Navbar />
@@ -11,4 +11,4 @@ const Items = () => {
   );
 };
 
-export default Items;
+export default Reading;
