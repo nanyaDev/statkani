@@ -6,6 +6,8 @@ import { AxisBottom, AxisLeft } from '@visx/axis';
 import { useTooltip, Tooltip, defaultStyles } from '@visx/tooltip';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
+import { getMonthTicks } from '@/utils/dates';
+
 let tooltipTimeout;
 
 const HeatMap = ({ data, stats }) => {
@@ -38,8 +40,7 @@ const HeatMap = ({ data, stats }) => {
   // prettier-ignore
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-  // * make this work for all years
-  const xTickValues = [0, 6, 10, 14, 18, 23, 27, 32, 36, 40, 45, 49];
+  const xTickValues = getMonthTicks(year);
   const xTickFormat = (_, i) => months[i];
 
   const yTickValues = [1, 2, 3, 4, 5, 6, 7];
