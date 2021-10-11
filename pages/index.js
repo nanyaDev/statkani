@@ -41,7 +41,7 @@ const Home = () => {
   return (
     <div className="flex-grow flex flex-col justify-center items-center bg-bg">
       <Waves />
-      <h1 className="text-7xl text-center font-black text-gray-1 mb-8">
+      <h1 className="text-7xl text-center font-black text-gray-1 mb-8 z-10">
         API Key お願いします
       </h1>
       <form
