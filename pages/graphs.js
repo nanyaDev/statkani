@@ -81,8 +81,8 @@ const Graphs = () => {
   const m = millisToDays(median);
   const a = millisToDays(average);
   const barStats = {
-    Median: `${m.days} days, ${m.hours} hours ${m.minutes} minutes`,
-    Average: `${a.days} days, ${a.hours} hours ${a.minutes} minutes`,
+    Median: `${m.days} days ${m.hours} hours ${m.minutes} minutes`,
+    Average: `${a.days} days ${a.hours} hours ${a.minutes} minutes`,
   };
 
   return (
