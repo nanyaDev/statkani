@@ -52,11 +52,23 @@ const Donut = ({ stages, completed }) => {
         fill="white"
         fontSize={11}
         fontWeight={300}
+        pointerEvents="none"
       >
         <tspan x="50%">{completed}</tspan>
         <tspan x="50%" dy="1.5em" className="text-base">
           COMPLETE
         </tspan>
+      </text>
+      <text
+        textAnchor="end"
+        x={size}
+        y={size}
+        fill="white"
+        fontSize={11}
+        fontWeight={300}
+        pointerEvents="none"
+      >
+        Click the donut!
       </text>
     </svg>
   );
@@ -97,6 +109,7 @@ const PieIndividual = ({ arc, path, handleClick, fill, symmetry }) => {
         y={y}
         textAnchor="middle"
         dy=".33em"
+        pointerEvents="none"
         onClick={handleClick}
       >
         {arc.data.value}
