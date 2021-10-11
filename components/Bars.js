@@ -52,8 +52,8 @@ const Bars = ({ progressions, median, average, stats }) => {
       <div className="relative">
         <svg width={xMax + 60} height={yMax + 30}>
           <Group left={30} right={30}>
-            {progressions.map((d) => {
-              return (
+            {progressions.map((d) => (
+              <>
                 <motion.rect
                   key={`bar-${d.level}`}
                   initial={false}
@@ -71,8 +71,22 @@ const Bars = ({ progressions, median, average, stats }) => {
                   }}
                   onMouseLeave={hideTooltip}
                 />
-              );
-            })}
+                {d.duration > median * 2.5 && (
+                  <svg
+                    x={xPoint(d)}
+                    y={15}
+                    width={xScale.bandwidth()}
+                    height={xScale.bandwidth() * 0.67}
+                    viewBox="0 0 75 50"
+                  >
+                    <path
+                      d="M0 26.0376V50.5L24.9135 26.0376L49.308 50.5L75 26.0376V0.5L49.308 26.0376L24.9135 0.5L0 26.0376Z"
+                      className="fill-current text-bg"
+                    />
+                  </svg>
+                )}
+              </>
+            ))}
             <Line
               className="stroke-current text-gray-1"
               from={{ x: 0, y: yScale(median) }}
