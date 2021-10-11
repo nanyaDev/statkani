@@ -11,21 +11,19 @@ import calendarize from '@/utils/calendarize';
 import sortByKeys from '@/utils/sortByKeys';
 import trimZeros from '@/utils/trimZeros';
 import toPercentage from '@/utils/toPercentage';
-import getDuration from '@/utils/getDuration';
+import { millisToDays } from '@/utils/dates';
 
 const Graphs = () => {
   const { progressions, reviews } = useData();
 
   // from dashboard code
   let prog = [...new Map(progressions.map((x) => [x.level, x])).values()];
-  const currLevel = prog[prog.length - 1];
-  currLevel.end = new Date().toISOString();
+  prog[prog.length - 1].end = new Date().toISOString();
   prog = prog.filter((level) => level.end);
-  prog.push(currLevel);
 
-  const diffs = prog.map(
-    (p) => new Date(p.end).getTime() - new Date(p.start).getTime()
-  );
+  const diffs = prog
+    .slice(0, -1)
+    .map((p) => new Date(p.end).getTime() - new Date(p.start).getTime());
   const median = getMedian(diffs);
   const average = getAverage(diffs);
   const medianInDays = median / 1000 / 60 / 60 / 24;
@@ -79,9 +77,11 @@ const Graphs = () => {
     'Daily Average': Math.round(totalReviews / daysLearned),
   };
 
+  const m = millisToDays(median);
+  const a = millisToDays(average);
   const barStats = {
-    Median: getDuration(0, median, ['days', 'hours', 'minutes']),
-    Average: getDuration(0, average, ['days', 'hours', 'minutes']),
+    Median: `${m.days} days, ${m.hours} hours ${m.minutes} minutes`,
+    Average: `${a.days} days, ${a.hours} hours ${a.minutes} minutes`,
   };
 
   return (

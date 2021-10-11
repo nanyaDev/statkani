@@ -8,8 +8,6 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 
 import { indexToDate, getMonthTicks } from '@/utils/dates';
 
-let tooltipTimeout;
-
 const HeatMap = ({ data, stats }) => {
   const [year, setYear] = useState(new Date().getFullYear());
   // prettier-ignore

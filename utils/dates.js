@@ -19,3 +19,18 @@ export const indexToDate = (index, year) => {
   const date = new Date(year, 0, index - offset);
   return format(date, 'MMMM d');
 };
+
+export const millisToDays = (millis) => {
+  let ms = millis;
+
+  const days = Math.floor(ms / (1000 * 60 * 60 * 24));
+  ms = ms % (1000 * 60 * 60 * 24);
+
+  const hours = Math.floor(ms / (1000 * 60 * 60));
+  ms = ms % (1000 * 60 * 60);
+
+  const minutes = Math.round(ms / (1000 * 60));
+  ms = ms % (1000 * 60);
+
+  return { days, hours, minutes };
+};
