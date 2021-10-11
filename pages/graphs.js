@@ -14,12 +14,13 @@ import toPercentage from '@/utils/toPercentage';
 import { millisToDays } from '@/utils/dates';
 
 const Graphs = () => {
-  const { progressions, reviews } = useData();
+  const { user, progressions, reviews } = useData();
 
+  // todo: this code needs to be more readable
   // from dashboard code
   let prog = [...new Map(progressions.map((x) => [x.level, x])).values()];
+  prog = prog.filter((p) => p.level <= user.level);
   prog[prog.length - 1].end = new Date().toISOString();
-  prog = prog.filter((level) => level.end);
 
   const diffs = prog
     .slice(0, -1)

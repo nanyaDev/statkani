@@ -8,7 +8,7 @@ import { localPoint } from '@visx/event';
 import { MdZoomIn, MdZoomOut } from 'react-icons/md';
 import { motion } from 'framer-motion';
 
-const Bars = ({ progressions, median, average, stats }) => {
+const Bars = ({ progressions, median, stats }) => {
   const [zoom, setZoom] = useState(true);
   // prettier-ignore
   const { showTooltip, hideTooltip, tooltipLeft, tooltipTop, tooltipData } = useTooltip();
