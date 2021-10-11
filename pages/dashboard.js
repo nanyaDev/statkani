@@ -79,6 +79,7 @@ const Dashboard = () => {
   })
 
   accuracy.radical[1] = 'n/a';
+  accuracy.radical[2] = accuracy.radical[0];
 
   const known = assignments.reduce(
     (acc, curr) => {
