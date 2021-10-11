@@ -123,6 +123,7 @@ const Bars = ({ progressions, median, average, stats }) => {
               backgroundColor: '#11162D',
               color: 'white',
               transform: 'translateY(-100%)',
+              whiteSpace: 'nowrap',
             }}
           >
             <div
