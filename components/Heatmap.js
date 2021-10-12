@@ -149,7 +149,7 @@ const HeatMap = ({ data, stats }) => {
             />
           </Group>
         </svg>
-        {tooltipData && (
+        {tooltipData && tooltipData.count !== null && (
           <Tooltip
             top={tooltipTop}
             left={tooltipLeft}
