@@ -23,7 +23,7 @@ const Dashboard = () => {
     { stage: 'Master', value: stagesArr[7] },
     { stage: 'Enlightened', value: stagesArr[8] },
     { stage: 'Burned', value: stagesArr[9] },
-    { stage: 'Unknown', value: subjects.length - stagesArr.reduce((a, b) => a + b) },
+    { stage: 'Unknown', value: subjects.length - stagesArr.slice(1).reduce((a, b) => a + b) },
   ];
 
   let completed = stagesArr.reduce((a, b) => a + b) / subjects.length;
