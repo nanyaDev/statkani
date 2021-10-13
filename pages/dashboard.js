@@ -26,7 +26,7 @@ const Dashboard = () => {
     { stage: 'Unknown', value: subjects.length - stagesArr.slice(1).reduce((a, b) => a + b) },
   ];
 
-  let completed = stagesArr.reduce((a, b) => a + b) / subjects.length;
+  let completed = stagesArr.slice(1).reduce((a, b) => a + b) / subjects.length;
   completed = toPercentage(completed, 1);
 
   let dates = {};
