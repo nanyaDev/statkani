@@ -1,7 +1,7 @@
 const StatsBox = ({ dates, accuracy, known }) => {
   // prettier-ignore
   const colors = { radical: 'text-blue', kanji: 'text-pink', vocabulary: 'text-purple' };
-  const names = { radical: '部種', kanji: '漢字', vocabulary: '単語' };
+  const names = { radical: '部首', kanji: '漢字', vocabulary: '単語' };
 
   return (
     <div className="relative w-[401px] h-[401px] bg-gradient-to-br from-gray-500 to-gray-700">
