@@ -42,22 +42,25 @@ const Dashboard = () => {
     let prog = [...new Map(progressions.map((x) => [x.level, x])).values()];
     // remove any extra reset levels and in progress levels
     prog = prog.filter((level) => level.end);
-    const diffs = prog.map(
-      (p) => new Date(p.end).getTime() - new Date(p.start).getTime()
-    );
 
-    let timePerLevel = getMedian(diffs);
-    let timeLeft = timePerLevel * (60 - user.level);
+    if (prog.length) {
+      const diffs = prog.map(
+        (p) => new Date(p.end).getTime() - new Date(p.start).getTime()
+      );
 
-    timePerLevel = getDuration(0, timePerLevel, ['months', 'days', 'hours']);
-    timeLeft = getDuration(0, timeLeft, ['years', 'months', 'days']);
+      let timePerLevel = getMedian(diffs);
+      let timeLeft = timePerLevel * (60 - user.level);
 
-    dates = {
-      'Start Date': format(new Date(user.start), 'd MMMM y'),
-      'Time Since': timeSince,
-      'Time Left': timeLeft,
-      'Time/Level': timePerLevel,
-    };
+      timePerLevel = getDuration(0, timePerLevel, ['months', 'days', 'hours']);
+      timeLeft = getDuration(0, timeLeft, ['years', 'months', 'days']);
+
+      dates = {
+        'Start Date': format(new Date(user.start), 'd MMMM y'),
+        'Time Since': timeSince,
+        'Time Left': timeLeft,
+        'Time/Level': timePerLevel,
+      };
+    }
   }
 
   // todo: this code is really gnarly, there should be a better way
