@@ -24,7 +24,7 @@
     "framer-motion": "^4.1.17",
     "js-cookie": "^3.0.1",
     "localforage": "^1.10.0",
-    "next": "11.1.2",
+    "next": "^12.3.4",
     "next-seo": "^4.28.1",
     "prettier": "^2.4.1",
     "react": "17.0.2",
