@@ -56,7 +56,7 @@ const Items = () => {
     }
 
     return acc;
-  });
+  }, {});
 
   const kanjiToDisplay = mode === 'jlpt' ? jlpt : wanikani;
 
