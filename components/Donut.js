@@ -55,6 +55,7 @@ const Donut = ({ stages, completion }) => {
         fill="white"
         fontSize={11}
         fontWeight={300}
+        cursor="pointer"
         onClick={() => setMode((p) => (p + 1) % 2)}
       >
         <tspan x="50%">{completion[mode]}</tspan>
@@ -93,13 +94,12 @@ const PieIndividual = ({ arc, path, handleClick, fill, symmetry }) => {
   };
 
   return (
-    <g>
+    <g cursor="pointer" onClick={handleClick}>
       <motion.path
         d={d}
         style={{ sa, ea }}
         animate={{ sa: arc.startAngle, ea: arc.endAngle }}
         transition={{ duration: 0.5, transition: 'linear' }}
-        onClick={handleClick}
         fill={fill}
       />
       <motion.text
@@ -112,8 +112,6 @@ const PieIndividual = ({ arc, path, handleClick, fill, symmetry }) => {
         y={y}
         textAnchor="middle"
         dy=".33em"
-        pointerEvents="none"
-        onClick={handleClick}
       >
         {arc.data.value}
       </motion.text>
