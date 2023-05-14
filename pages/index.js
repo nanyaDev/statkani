@@ -39,7 +39,7 @@ const Home = () => {
   };
 
   return (
-    <div className="flex-grow flex flex-col justify-center items-center bg-bg">
+    <div className="grow flex flex-col justify-center items-center bg-bg">
       <Waves />
       <h1 className="text-7xl text-center font-black text-gray-1 mb-8 z-10">
         API Key お願いします
@@ -49,7 +49,7 @@ const Home = () => {
         onSubmit={handleSubmit}
       >
         <input
-          className="flex-grow bg-bg text-xl font-light text-center text-gray-1 focus:outline-none focus:placeholder-transparent"
+          className="grow bg-bg text-xl font-light text-center text-gray-1 focus:outline-none focus:placeholder-transparent"
           placeholder="Your key goes here!"
           value={value}
           onChange={handleChange}

@@ -93,9 +93,9 @@ const Graphs = () => {
   };
 
   return (
-    <div className="flex-grow flex flex-col bg-bg">
+    <div className="grow flex flex-col bg-bg">
       <Navbar />
-      <div className="flex-grow flex flex-col justify-around items-center px-20 py-10">
+      <div className="grow flex flex-col justify-around items-center px-20 py-10">
         <Bars
           progressions={prog}
           median={medianInDays}
