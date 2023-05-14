@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { MdZoomIn, MdZoomOut } from 'react-icons/md';
+import { BiPlus, BiMinus } from 'react-icons/bi';
 
 import Navbar from '@/components/Navbar';
 import jlpt from '@/utils/jlpt';
@@ -9,6 +9,7 @@ import toPercentage from '@/utils/toPercentage';
 const Items = () => {
   const { subjects, assignments } = useData();
   const [mode, setMode] = useState('jlpt');
+  const [size, setSize] = useState(2);
 
   const wk = subjects.reduce(
     (acc, curr) => {
@@ -59,6 +60,11 @@ const Items = () => {
 
   const kanjiToDisplay = mode === 'jlpt' ? jlpt : wanikani;
 
+  // prettier-ignore
+  const sizeToText = { 0: 'text-sm', 1: 'text-base', 2: 'text-lg', 3: 'text-xl' };
+  const sizeNames = { 0: 'XS', 1: 'SM', 2: 'MD', 3: 'LG' };
+  const text = sizeToText[size];
+
   return (
     <div className="flex-grow flex flex-col bg-bg">
       <Navbar />
@@ -69,15 +75,16 @@ const Items = () => {
               JLPT
             </button>
             <button onClick={() => setMode('wanikani')} className="font-bold">
-              WK
+              WANIKANI
             </button>
           </div>
-          <div className="flex items-center space-x-4">
-            <button>
-              <MdZoomOut size={24} />
+          <div className="flex items-center space-x-2">
+            <button disabled={size <= 0} onClick={() => setSize((p) => p - 1)}>
+              <BiMinus size={20} />
             </button>
-            <button>
-              <MdZoomIn size={24} />
+            <span className="font-bold">{sizeNames[size]}</span>
+            <button disabled={size >= 3} onClick={() => setSize((p) => p + 1)}>
+              <BiPlus size={20} />
             </button>
           </div>
         </div>
@@ -88,6 +95,7 @@ const Items = () => {
             kanji={kanji}
             colors={charToColor}
             stages={charToStage}
+            text={text}
           />
         ))}
       </div>
@@ -95,8 +103,8 @@ const Items = () => {
   );
 };
 
-const Section = ({ level, kanji, colors, stages }) => {
-  const learnt = kanji.filter((k) => stages[k] > 0).length;
+const Section = ({ level, kanji, colors, stages, text }) => {
+  const learnt = kanji.filter((k) => stages[k] >= 5).length;
   const total = kanji.length;
   const percentage = toPercentage(learnt / total);
 
@@ -111,7 +119,7 @@ const Section = ({ level, kanji, colors, stages }) => {
           <span>{percentage}</span>
         </div>
       </div>
-      <div className="flex flex-wrap justify-between gap-1 text-lg">
+      <div className={`flex flex-wrap justify-between gap-1 ${text}`}>
         {kanji.map((k) => (
           <span key={k} style={{ color: colors[k] || '#555' }}>
             {k}
