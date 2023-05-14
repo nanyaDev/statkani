@@ -16,7 +16,7 @@ const Navbar = () => {
       <NavLink to="dashboard" Icon={AiFillDashboard} />
       <NavLink to="graphs" Icon={MdShowChart} />
       <NavLink to="items" Icon={AiOutlineBars} />
-      {/* <NavLink to="comprehension" Icon={FaBookOpen} /> */}
+      <NavLink to="reading" Icon={FaBookOpen} />
       <span className="ml-auto flex space-x-4">
         <IoMdMoon size={24} />
         <a
@@ -40,10 +40,10 @@ const NavLink = ({ to, Icon }) => {
 
   return (
     <Link href={`/${to}`}>
-      <a className="flex justify-center items-center text-lg mx-8">
+      <a className="flex justify-center items-center mx-8">
         <div className="flex flex-col items-center">
-          <div className="flex my-2.5">
-            <Icon size={24} />
+          <div className="flex items-center my-2.5">
+            <Icon size={20} />
             <span className="ml-3">
               {to.charAt(0).toUpperCase() + to.slice(1)}
             </span>
