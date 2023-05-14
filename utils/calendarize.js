@@ -4,6 +4,7 @@ import { getISODay, getWeek, getMonth, getYear, parseISO } from 'date-fns';
 const calendarize = (timestamp) => {
   const date = parseISO(timestamp);
 
+  // these are localized
   const day = getISODay(date);
   let week = getWeek(date, { weekStartsOn: 1 });
   const year = getYear(date);
