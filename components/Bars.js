@@ -8,10 +8,6 @@ import { localPoint } from '@visx/event';
 import { MdZoomIn, MdZoomOut } from 'react-icons/md';
 import { motion } from 'framer-motion';
 
-import getDuration from '@/utils/getDuration';
-
-let tooltipTimeout;
-
 const Bars = ({ progressions, median, average, stats }) => {
   const [zoom, setZoom] = useState(true);
   // prettier-ignore
@@ -30,7 +26,7 @@ const Bars = ({ progressions, median, average, stats }) => {
   });
 
   const yScale = scaleLinear({
-    domain: [0, average * 2],
+    domain: [0, median * 2.5],
     range: [yMax, 0],
     round: true,
   }).clamp(true);
