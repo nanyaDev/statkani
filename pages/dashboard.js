@@ -6,6 +6,7 @@ import Donut from '@/components/Donut';
 import StatsBox from '@/components/StatsBox';
 import getMedian from '@/utils/getMedian';
 import getDuration from '@/utils/getDuration';
+import toPercentage from '@/utils/toPercentage';
 
 const Dashboard = () => {
   const { user, subjects, assignments, progressions, reviewStats } = useData();
@@ -26,7 +27,7 @@ const Dashboard = () => {
   ];
 
   let completed = stagesArr.reduce((a, b) => a + b) / subjects.length;
-  completed = (completed * 100).toFixed(1) + '%';
+  completed = toPercentage(completed, 1);
 
   let dates = {};
   if (user && assignments.length && progressions.length) {
@@ -74,7 +75,7 @@ const Dashboard = () => {
   Object.entries(accuracy).forEach(([key, value]) => {
     const {mc, mi, rc, ri} = value;
     const arr = [mc/(mc+mi), rc/(rc+ri), (mc+rc)/(mc + rc + mi + ri)]
-    accuracy[key] = arr.map(v => (v*100).toFixed(2) + '%')
+    accuracy[key] = arr.map(v => toPercentage(v, 2))
   })
 
   accuracy.radical[1] = 'n/a';
