@@ -18,7 +18,10 @@ const Graphs = () => {
 
   // from dashboard code
   let prog = [...new Map(progressions.map((x) => [x.level, x])).values()];
-  prog = prog.filter((level) => level.end); // * what about in progress level
+  const currLevel = prog[prog.length - 1];
+  currLevel.end = new Date().toISOString();
+  prog = prog.filter((level) => level.end);
+  prog.push(currLevel);
 
   const diffs = prog.map(
     (p) => new Date(p.end).getTime() - new Date(p.start).getTime()
