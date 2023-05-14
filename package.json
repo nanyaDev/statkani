@@ -15,6 +15,7 @@
     "@visx/heatmap": "^2.1.0",
     "@visx/scale": "^2.1.0",
     "@visx/shape": "^2.1.1",
+    "@visx/tooltip": "^2.1.0",
     "d3-random": "^3.0.1",
     "date-fns": "^2.24.0",
     "eslint-config-prettier": "^8.3.0",
