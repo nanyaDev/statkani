@@ -40,7 +40,7 @@ const Bars = ({ progressions, median, average, stats }) => {
 
   return (
     <div className="flex flex-col space-y-2">
-      <div className="flex justify-between items-center text-gray-1 pl-8">
+      <div className="flex justify-between items-center text-gray-1 px-8">
         <div className="flex items-center space-x-4 text-sm">
           {Object.entries(stats).map(([key, value]) => (
             <span key={key}>

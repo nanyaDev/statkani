@@ -1,4 +1,4 @@
-import { getWeek } from 'date-fns';
+import { getDay, getWeek, format } from 'date-fns';
 
 export const getMonthTicks = (year) => {
   let ticks = [];
@@ -9,4 +9,13 @@ export const getMonthTicks = (year) => {
   }
 
   return ticks;
+};
+
+export const indexToDate = (index, year) => {
+  let offset = getDay(year, 0, 1);
+  if (offset === 0) offset === 7;
+  offset -= 1;
+
+  const date = new Date(year, 0, index - offset);
+  return format(date, 'MMMM d');
 };
