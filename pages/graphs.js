@@ -17,8 +17,9 @@ const Graphs = () => {
   const { user, progressions, reviews } = useData();
 
   // todo: this code needs to be more readable
-  // from dashboard code
   let prog = [...new Map(progressions.map((x) => [x.level, x])).values()];
+  // hotfix for wrong ordering when early levels are missing
+  prog = prog.sort((a, b) => a.level - b.level);
   prog = prog.filter((p) => p.level <= user.level);
   prog[prog.length - 1].end = new Date().toISOString();
 
