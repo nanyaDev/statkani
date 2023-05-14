@@ -162,6 +162,7 @@ const HeatMap = ({ data, stats }) => {
               backgroundColor: '#11162D',
               color: 'white',
               transform: 'translateY(-100%)',
+              whiteSpace: 'nowrap',
             }}
           >
             <div className="font-medium text-blue">
