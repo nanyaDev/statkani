@@ -5,7 +5,7 @@ import { scaleBand, scaleLinear } from '@visx/scale';
 import { AxisBottom, AxisLeft } from '@visx/axis';
 import { useTooltip, Tooltip, defaultStyles } from '@visx/tooltip';
 import { localPoint } from '@visx/event';
-import { MdZoomIn, MdZoomOut } from 'react-icons/md';
+import { AiOutlineCompress, AiOutlineExpand } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 
 const Bars = ({ progressions, median, stats }) => {
@@ -46,7 +46,11 @@ const Bars = ({ progressions, median, stats }) => {
           ))}
         </div>
         <button className="font-semibold" onClick={() => setZoom((p) => !p)}>
-          {zoom ? <MdZoomOut size={24} /> : <MdZoomIn size={24} />}
+          {zoom ? (
+            <AiOutlineExpand size={18} />
+          ) : (
+            <AiOutlineCompress size={18} />
+          )}
         </button>
       </div>
       <div className="relative">
