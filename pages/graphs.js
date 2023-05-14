@@ -45,7 +45,7 @@ const Graphs = () => {
       const dec31 = new Date(Date.UTC(year, 11, 31));
 
       bins[year][0] = bins[year][0].fill(null, 0, getISODay(jan1) - 1);
-      bins[year][52] = bins[year][52].fill(null, getISODay(dec31) - 1);
+      bins[year][52] = bins[year][52].fill(null, getISODay(dec31));
     }
 
     bins[year][week - 1][day - 1] += 1;
