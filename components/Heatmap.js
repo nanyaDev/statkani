@@ -26,7 +26,7 @@ const HeatMap = ({ data, stats }) => {
   });
 
   const colorScale = scaleLinear({
-    domain: [0, 200], // ! fix this
+    domain: [0, 200], // * fix this
     range: ['#11162D', '#00AAFF'],
   });
 
