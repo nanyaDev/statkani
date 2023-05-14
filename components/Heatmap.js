@@ -44,10 +44,11 @@ const HeatMap = ({ data, stats }) => {
   return (
     <div className="flex flex-col space-y-2">
       <div className="flex justify-between items-center text-gray-1 pl-8">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 text-sm">
           {Object.entries(stats).map(([key, value]) => (
             <span key={key}>
-              {key}: {value}
+              <span className="">{key}: </span>
+              <span className="text-blue">{value}</span>
             </span>
           ))}
         </div>
@@ -57,15 +58,15 @@ const HeatMap = ({ data, stats }) => {
             onClick={() => setYear((p) => p - 1)}
             className="disabled:text-gray-700"
           >
-            <MdChevronLeft size={28} />
+            <MdChevronLeft size={24} />
           </button>
-          <span className="text-xl font-bold">{year}</span>
+          <span className="font-semibold">{year}</span>
           <button
             disabled={!Object.keys(data).includes((year + 1).toString())}
             onClick={() => setYear((p) => p + 1)}
             className="disabled:text-gray-700"
           >
-            <MdChevronRight size={28} />
+            <MdChevronRight size={24} />
           </button>
         </div>
       </div>
