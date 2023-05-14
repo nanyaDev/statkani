@@ -1,71 +1,38 @@
-import { useState, useMemo, useRef, useEffect } from 'react';
-import { area, curveBasis, randomNormal } from 'd3';
-import { times, uniqueId } from 'lodash';
-import { animated, useSpring } from 'react-spring';
+import { useState } from 'react';
+import { randomNormal } from 'd3-random';
+import { area } from '@visx/shape';
+import { curveBasis } from '@visx/curve';
+import { motion } from 'framer-motion';
 
-const useInterval = (callback, delay) => {
-  const savedCallback = useRef();
+import useInterval from '@/lib/useInterval';
 
-  // Remember the latest callback.
-  useEffect(() => {
-    savedCallback.current = callback;
-  }, [callback]);
+const background = '#050b20';
+const colors = ['#FF00AA', '#00AAFF', '#A100F1'];
+const nPoints = 20;
+const height = 30;
+const duration = 3;
 
-  // Set up the interval.
-  useEffect(() => {
-    function tick() {
-      savedCallback.current();
-    }
-    if (delay !== null) {
-      let id = setInterval(tick, delay);
-      return () => clearInterval(id);
-    }
-  }, [delay]);
-};
+const getPath = () => {
+  const curveFunc = area()
+    .x((d) => d.x)
+    .y0((d) => height - d.y0)
+    .y1((d) => height - d.y1)
+    .curve(curveBasis);
 
-const gradients = [
-  ['#f2f2f7', '#FF00AA', '#f2f2f7'],
-  ['#f2f2f7', '#00AAFF', '#f2f2f7'],
-  ['#f2f2f7', '#A100F1', '#f2f2f7'],
-];
-const numberOfWiggles = 20;
-const heightOfBackground = 10;
+  const data = Array.from({ length: nPoints }).map((_, i) => {
+    const scaleFactor = (height / (Math.abs(i - nPoints / 2) || 1)) * 0.6; // 0.6 to reduce the peak a bit
 
-const getPath = () =>
-  area()
-    .x(([x, y]) => x)
-    .y0(([x, y]) => -y / 5)
-    .y1(([x, y, y1]) => y1 / 5)
-    .curve(curveBasis)(
-    times(numberOfWiggles, (i) => [
-      i, // x
-      Math.max(
-        0,
-        (heightOfBackground / 2) *
-          (1 / (Math.abs(i - numberOfWiggles / 2) || 1)) +
-          randomNormal(0, 8)() +
-          3
-      ), // y0
-      Math.min(
-        0,
-        (-heightOfBackground / 2) *
-          (1 / (Math.abs(i - numberOfWiggles / 2) || 1)) +
-          randomNormal(0, 8)() -
-          3
-      ), // y1
-    ])
-  );
+    const x = i;
+    let y0 = Math.max(0, scaleFactor + randomNormal(0, 8)());
+    let y1 = Math.max(0, scaleFactor + randomNormal(0, 8)());
 
-const springConfig = {
-  duration: 3000,
+    return { x, y0, y1 };
+  });
+
+  return curveFunc(data);
 };
 
 const Waves = () => {
-  const gradientIds = useMemo(
-    () => times(3, () => `HeaderBackground__gradient--id-${uniqueId()}`),
-    []
-  );
-
   const [path1, setPath1] = useState(getPath);
   const [path2, setPath2] = useState(getPath);
   const [path3, setPath3] = useState(getPath);
@@ -74,51 +41,46 @@ const Waves = () => {
     setPath1(getPath());
     setPath2(getPath());
     setPath3(getPath());
-  }, 3000);
-
-  const spring1 = useSpring({ config: springConfig, d: path1 });
-  const spring2 = useSpring({ config: springConfig, d: path2 });
-  const spring3 = useSpring({ config: springConfig, d: path3 });
+  }, duration * 1000);
 
   return (
-    <div className="HeaderBackground">
+    <div>
       <svg
-        className="HeaderBackground__svg"
-        viewBox={[
-          0,
-          -heightOfBackground / 2,
-          numberOfWiggles - 1,
-          heightOfBackground,
-        ].join(' ')}
+        className="absolute bottom-1/2 left-0 overflow-visible"
+        height="13em"
+        width="100%"
+        viewBox={[0, 0, nPoints - 1, height].join(' ')}
         preserveAspectRatio="none"
       >
         <defs>
-          {gradients.map((colors, gradientIndex) => (
-            <linearGradient id={gradientIds[gradientIndex]} key={gradientIndex}>
-              {colors.map((color, colorIndex) => (
-                <stop
-                  key={[gradientIndex, colorIndex].join('-')}
-                  stopColor={color}
-                  offset={`${(colorIndex / (colors.length - 1)) * 100}%`}
-                />
-              ))}
+          {colors.map((color, i) => (
+            <linearGradient id={`gradient-${i}`} key={i}>
+              <stop stopColor={background} offset="0%" />
+              <stop stopColor={color} offset="50%" />
+              <stop stopColor={background} offset="100%" />
             </linearGradient>
           ))}
         </defs>
-        <animated.path
-          className="HeaderBackground__path"
-          {...spring1}
-          fill={`url(#${gradientIds[0]})`}
+        <motion.path
+          initial={false}
+          animate={{ d: path1 }}
+          transition={{ duration, type: 'tween', ease: 'linear' }}
+          fill="url(#gradient-0)"
+          className="mix-blend-screen"
         />
-        <animated.path
-          className="HeaderBackground__path"
-          {...spring2}
-          fill={`url(#${gradientIds[1]})`}
+        <motion.path
+          initial={false}
+          animate={{ d: path2 }}
+          transition={{ duration, type: 'tween', ease: 'linear' }}
+          fill="url(#gradient-1)"
+          className="mix-blend-screen"
         />
-        <animated.path
-          className="HeaderBackground__path"
-          {...spring3}
-          fill={`url(#${gradientIds[2]})`}
+        <motion.path
+          initial={false}
+          animate={{ d: path3 }}
+          transition={{ duration, type: 'tween', ease: 'linear' }}
+          fill="url(#gradient-2)"
+          className="mix-blend-screen"
         />
       </svg>
     </div>
