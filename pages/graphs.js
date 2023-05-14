@@ -1,10 +1,6 @@
-import { useState } from 'react';
 import Navbar from '@/components/Navbar';
 import HeatMap from '@/components/Heatmap';
 import Bars from '@/components/Bars';
-
-import { useAuth } from '@/lib/auth';
-import { fetchEndpoint } from '@/lib/api';
 
 const Graphs = () => {
   return (

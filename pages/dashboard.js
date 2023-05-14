@@ -87,8 +87,6 @@ const Dashboard = () => {
     { radical: 0, kanji: 0, vocabulary: 0 }
   );
 
-  console.log(known);
-
   return (
     <div className="flex-grow flex flex-col bg-bg">
       <Navbar />
