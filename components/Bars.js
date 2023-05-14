@@ -4,6 +4,7 @@ import { Bar, Line } from '@visx/shape';
 import { scaleBand, scaleLinear } from '@visx/scale';
 import { AxisBottom, AxisLeft } from '@visx/axis';
 import { MdZoomIn, MdZoomOut } from 'react-icons/md';
+import { motion } from 'framer-motion';
 
 // todo: make this responsive
 const Bars = ({ progressions, median, average, stats }) => {
@@ -35,9 +36,6 @@ const Bars = ({ progressions, median, average, stats }) => {
       <div className="flex justify-between items-center text-gray-1 pl-8">
         <div className="flex items-center space-x-4 text-sm">
           {Object.entries(stats).map(([key, value]) => (
-            // <span key={key}>
-            //   {key}: {value}
-            // </span>
             <span key={key}>
               <span className="">{key}: </span>
               <span className="text-white">{value}</span>
@@ -52,11 +50,12 @@ const Bars = ({ progressions, median, average, stats }) => {
         <Group left={30}>
           {progressions.map((d) => {
             return (
-              <Bar
+              <motion.rect
                 key={`bar-${d.level}`}
-                x={xPoint(d)}
+                initial={false}
+                animate={{ x: xPoint(d), width: xScale.bandwidth() }}
+                transition={{ type: 'spring', duration: 0.5, bounce: 0 }}
                 y={yPoint(d)}
-                width={xScale.bandwidth()}
                 height={yMax - yPoint(d)}
                 fill={d.duration <= median ? '#A100F1' : '#FF00AA'}
               />
