@@ -29,10 +29,10 @@ const Bars = ({ progressions, median, average, stats }) => {
   });
 
   const yScale = scaleLinear({
-    domain: [0, average * 2], // * what about outliers
+    domain: [0, average * 2],
     range: [yMax, 0],
     round: true,
-  });
+  }).clamp(true);
 
   const xPoint = (d) => xScale(d.level);
   const yPoint = (d) => yScale(d.duration);
@@ -55,7 +55,6 @@ const Bars = ({ progressions, median, average, stats }) => {
       <svg width={xMax + 60} height={yMax + 30}>
         <Group left={30} right={30}>
           {progressions.map((d) => {
-            console.log(d);
             return (
               <motion.rect
                 key={`bar-${d.level}`}
@@ -83,11 +82,8 @@ const Bars = ({ progressions, median, average, stats }) => {
           })}
           <Line
             className="stroke-current text-gray-1"
-            from={{ x: xScale(1), y: yScale(median) }}
-            to={{
-              x: xScale(zoom ? progressions.length : 60) + xScale.bandwidth(),
-              y: yScale(median),
-            }}
+            from={{ x: 0, y: yScale(median) }}
+            to={{ x: xMax, y: yScale(median) }}
           />
           <AxisLeft
             scale={yScale}
