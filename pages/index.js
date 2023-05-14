@@ -1,24 +1,32 @@
 import { useState } from 'react';
 
+import { useAuth } from '@/lib/auth';
 import isUUID from '@/utils/isUUID';
 import Waves from '@/components/Waves';
 
 const Home = () => {
   const [value, setValue] = useState('');
   const [error, setError] = useState(null);
+  const { user, signin } = useAuth();
 
   const handleChange = (e) => {
     error && setError(null);
     setValue(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const key = value.trim();
+    const apiToken = value.trim();
 
-    if (!isUUID(key)) {
+    if (!isUUID(apiToken)) {
       setError("Hmm, that's not the right format for an API key 😔");
       return;
+    }
+
+    try {
+      await signin(apiToken);
+    } catch (error) {
+      setError("WaniKani doesn't recognize that API key. Try again? 🤷‍♂️");
     }
   };
 
