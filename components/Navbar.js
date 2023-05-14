@@ -18,7 +18,7 @@ const Navbar = () => {
       <NavLink to="items" Icon={AiOutlineBars} />
       <NavLink to="reading" Icon={FaBookOpen} />
       <span className="ml-auto flex space-x-4">
-        <IoMdMoon size={24} />
+        {/* <IoMdMoon size={24} /> */}
         <a
           target="_blank"
           rel="noreferrer"
