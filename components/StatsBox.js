@@ -4,8 +4,8 @@ const StatsBox = ({ dates, accuracy, known }) => {
   const names = { radical: '部種', kanji: '漢字', vocabulary: '単語' };
 
   return (
-    <div className="relative w-[401px] h-[401px] bg-gradient-to-br from-gray-2 to-gray-3">
-      <div className="absolute top-px bottom-px right-px left-px bg-bg flex flex-col justify-evenly items-center">
+    <div className="relative w-[401px] h-[401px] bg-gradient-to-br from-gray-500 to-gray-700">
+      <div className="absolute top-px bottom-px right-px left-px bg-fg flex flex-col justify-evenly items-center">
         <table>
           <tbody className="text-white">
             {Object.entries(dates).map(([key, value]) => (
