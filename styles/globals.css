@@ -7,6 +7,12 @@
     scroll-behavior: smooth;
   }
 
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   #__next {
     display: flex;
     flex-direction: column;
