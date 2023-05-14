@@ -1,4 +1,4 @@
-const median = (arr) => {
+const getMedian = (arr) => {
   const sorted = arr.slice().sort((a, b) => a - b);
   const middle = Math.floor(sorted.length / 2);
 
@@ -9,4 +9,4 @@ const median = (arr) => {
   return sorted[middle];
 };
 
-export default median;
+export default getMedian;

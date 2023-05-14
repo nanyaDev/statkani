@@ -4,7 +4,7 @@ import { useData } from '@/lib/data';
 import Navbar from '@/components/Navbar';
 import Donut from '@/components/Donut';
 import StatsBox from '@/components/StatsBox';
-import median from '@/utils/median';
+import getMedian from '@/utils/getMedian';
 import getDuration from '@/utils/getDuration';
 
 const Dashboard = () => {
@@ -42,7 +42,7 @@ const Dashboard = () => {
       (p) => new Date(p.end).getTime() - new Date(p.start).getTime()
     );
 
-    let timePerLevel = median(diffs);
+    let timePerLevel = getMedian(diffs);
     let timeLeft = timePerLevel * (60 - user.level);
 
     timePerLevel = getDuration(0, timePerLevel, ['months', 'days', 'hours']);
