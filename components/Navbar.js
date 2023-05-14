@@ -2,18 +2,33 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { AiFillDashboard, AiOutlineBars } from 'react-icons/ai';
 import { MdShowChart } from 'react-icons/md';
-import { FaBookOpen, FaMoon } from 'react-icons/fa';
+import { FaBookOpen } from 'react-icons/fa';
+import { IoMdExit, IoMdMoon, IoLogoGithub } from 'react-icons/io';
+
+import { useAuth } from '@/lib/auth';
 
 const Navbar = () => {
+  const { signout } = useAuth();
+
   return (
     <div className="flex justify-center items-center text-gray-1 h-20 px-20">
-      <span className="text-5xl font-bold mr-auto w-32">蟹計</span>
+      <span className="text-5xl font-bold mr-auto">統計</span>
       <NavLink to="dashboard" Icon={AiFillDashboard} />
       <NavLink to="graphs" Icon={MdShowChart} />
       <NavLink to="items" Icon={AiOutlineBars} />
-      <NavLink to="comprehension" Icon={FaBookOpen} />
-      <span className="ml-auto flex justify-end w-32">
-        <FaMoon size={24} />
+      {/* <NavLink to="comprehension" Icon={FaBookOpen} /> */}
+      <span className="ml-auto flex space-x-4">
+        <IoMdMoon size={24} />
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/nanyaDev/statkani"
+        >
+          <IoLogoGithub size={24} />
+        </a>
+        <button onClick={signout}>
+          <IoMdExit size={24} />
+        </button>
       </span>
     </div>
   );
