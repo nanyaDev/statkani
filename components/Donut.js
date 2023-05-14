@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Pie } from '@visx/shape';
 import { Group } from '@visx/group';
 import { scaleOrdinal } from '@visx/scale';
@@ -6,8 +6,11 @@ import { motion, useMotionValue, useTransform } from 'framer-motion';
 
 import useToggle from '@/lib/useToggle';
 
-const Donut = ({ stages, completed }) => {
+const Donut = ({ stages, completion }) => {
   const [symmetry, toggleSymmetry] = useToggle(true);
+  const [mode, setMode] = useState(0);
+
+  const modes = ['completed', 'burned'];
 
   // prettier-ignore
   const getColor = scaleOrdinal({
@@ -52,11 +55,11 @@ const Donut = ({ stages, completed }) => {
         fill="white"
         fontSize={11}
         fontWeight={300}
-        pointerEvents="none"
+        onClick={() => setMode((p) => (p + 1) % 2)}
       >
-        <tspan x="50%">{completed}</tspan>
-        <tspan x="50%" dy="1.5em" className="text-base">
-          COMPLETE
+        <tspan x="50%">{completion[mode]}</tspan>
+        <tspan x="50%" dy="1.5em" className="text-base uppercase">
+          {modes[mode]}
         </tspan>
       </text>
       <text

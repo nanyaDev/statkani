@@ -26,8 +26,11 @@ const Dashboard = () => {
     { stage: 'Unknown', value: subjects.length - stagesArr.slice(1).reduce((a, b) => a + b) },
   ];
 
-  let completed = stagesArr.slice(1).reduce((a, b) => a + b) / subjects.length;
-  completed = toPercentage(completed, 1);
+  let completion = [
+    stagesArr.slice(5).reduce((a, b) => a + b) / subjects.length,
+    stagesArr[9] / subjects.length,
+  ];
+  completion = completion.map((e) => toPercentage(e, 1));
 
   let dates = {};
   if (user && assignments.length && progressions.length) {
@@ -93,7 +96,7 @@ const Dashboard = () => {
     <div className="flex-grow flex flex-col bg-bg">
       <Navbar />
       <div className=" flex-grow flex justify-evenly items-center px-8 pb-8">
-        <Donut stages={stages} completed={completed} />
+        <Donut stages={stages} completion={completion} />
         <StatsBox dates={dates} accuracy={accuracy} known={known} />
       </div>
     </div>
