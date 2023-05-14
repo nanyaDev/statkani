@@ -6,7 +6,7 @@ import { motion, useMotionValue, useTransform } from 'framer-motion';
 
 import useToggle from '@/lib/useToggle';
 
-const Donut = ({ stages }) => {
+const Donut = ({ stages, completed }) => {
   const [symmetry, toggleSymmetry] = useToggle(true);
 
   // prettier-ignore
@@ -53,7 +53,7 @@ const Donut = ({ stages }) => {
         fontSize={11}
         fontWeight={300}
       >
-        <tspan x="50%">93%</tspan>
+        <tspan x="50%">{completed}</tspan>
         <tspan x="50%" dy="1.5em" className="text-base">
           COMPLETE
         </tspan>
