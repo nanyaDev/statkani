@@ -65,6 +65,7 @@ const Dashboard = () => {
     radical: { mc: 0, mi: 0, rc: 0, ri: 0 },
     kanji: { mc: 0, mi: 0, rc: 0, ri: 0 },
     vocabulary: { mc: 0, mi: 0, rc: 0, ri: 0 },
+    kana_vocabulary: { mc: 0, mi: 0, rc: 0, ri: 0 },
   };
   let accuracy = reviewStats.reduce((a, c) => {
     a[c.type].mc += c.mc;
