@@ -9,9 +9,10 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { indexToDate, getMonthTicks } from '@/utils/dates';
 
 const HeatMap = ({ data, stats }) => {
-  const [year, setYear] = useState(new Date().getFullYear());
-  // prettier-ignore
-  const { showTooltip, hideTooltip, tooltipLeft, tooltipTop, tooltipData } = useTooltip();
+  const currentYear = new Date().getFullYear();
+  const [year, setYear] = useState(currentYear);
+  const { showTooltip, hideTooltip, tooltipLeft, tooltipTop, tooltipData } =
+    useTooltip();
 
   // todo: get 53 and 7 from data
   const gap = 4;
@@ -57,7 +58,7 @@ const HeatMap = ({ data, stats }) => {
         </div>
         <div className="ml-auto flex space-x-2 items-center">
           <button
-            disabled={!Object.keys(data).includes((year - 1).toString())}
+            disabled={Object.keys(data).every((key) => +key >= year)}
             onClick={() => setYear((p) => p - 1)}
             className="disabled:text-gray-700"
           >
@@ -65,7 +66,7 @@ const HeatMap = ({ data, stats }) => {
           </button>
           <span className="font-semibold">{year}</span>
           <button
-            disabled={!Object.keys(data).includes((year + 1).toString())}
+            disabled={year >= currentYear}
             onClick={() => setYear((p) => p + 1)}
             className="disabled:text-gray-700"
           >
