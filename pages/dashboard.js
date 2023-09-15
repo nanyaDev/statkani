@@ -93,9 +93,9 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="flex-grow flex flex-col bg-bg">
+    <div className="grow flex flex-col bg-bg">
       <Navbar />
-      <div className=" flex-grow flex justify-evenly items-center px-8 pb-8">
+      <div className="grow flex justify-evenly items-center px-8 pb-8">
         <Donut stages={stages} completion={completion} />
         <StatsBox dates={dates} accuracy={accuracy} known={known} />
       </div>

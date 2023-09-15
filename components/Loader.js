@@ -3,7 +3,7 @@ import toPercentage from '@/utils/toPercentage';
 
 const Loader = ({ progress }) => {
   return (
-    <div className="flex-grow flex flex-col justify-center items-center space-y-6 bg-bg">
+    <div className="grow flex flex-col justify-center items-center space-y-6 bg-bg">
       {Object.entries(progress).map(([endpoint, progress]) => (
         <ProgressBar key={endpoint} endpoint={endpoint} progress={progress} />
       ))}

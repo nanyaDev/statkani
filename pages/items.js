@@ -66,9 +66,9 @@ const Items = () => {
   const text = sizeToText[size];
 
   return (
-    <div className="flex-grow flex flex-col bg-bg">
+    <div className="grow flex flex-col bg-bg">
       <Navbar />
-      <div className="self-center w-full max-w-4xl flex-grow flex flex-col space-y-6 my-8">
+      <div className="self-center w-full max-w-4xl grow flex flex-col space-y-6 my-8">
         <div className="flex justify-between items-center text-white">
           <div className="flex space-x-4 items-center text-lg">
             <button onClick={() => setMode('jlpt')} className="font-bold">
@@ -125,7 +125,7 @@ const Section = ({ level, kanji, colors, stages, text }) => {
             {k}
           </span>
         ))}
-        <span className="flex-grow"></span>
+        <span className="grow"></span>
       </div>
     </div>
   );

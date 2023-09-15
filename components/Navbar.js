@@ -39,22 +39,20 @@ const NavLink = ({ to, Icon }) => {
   const active = router.pathname.includes(to);
 
   return (
-    <Link href={`/${to}`}>
-      <a className="flex justify-center items-center mx-8">
-        <div className="flex flex-col items-center">
-          <div className="flex items-center my-2.5">
-            <Icon size={20} />
-            <span className="ml-3">
-              {to.charAt(0).toUpperCase() + to.slice(1)}
-            </span>
-          </div>
-          <div
-            className={`h-px w-full bg-gradient-to-r from-bg via-gray-1 to-bg ${
-              !active && 'hidden'
-            }`}
-          ></div>
+    <Link href={`/${to}`} className="flex justify-center items-center mx-8">
+      <div className="flex flex-col items-center">
+        <div className="flex items-center my-2.5">
+          <Icon size={20} />
+          <span className="ml-3">
+            {to.charAt(0).toUpperCase() + to.slice(1)}
+          </span>
         </div>
-      </a>
+        <div
+          className={`h-px w-full bg-gradient-to-r from-bg via-gray-1 to-bg ${
+            !active && 'hidden'
+          }`}
+        ></div>
+      </div>
     </Link>
   );
 };
